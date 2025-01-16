@@ -21,9 +21,6 @@
     padding: 0;
     box-sizing: border-box;
   }
-  h2,h3{
-    font-family:'harmattan'  ;
-  }
   html {
     scroll-behavior: smooth;
   }
@@ -40,9 +37,6 @@
  body{
     margin: 0;
   background-color:#efe6d68f;
-    
-
-
     color: #eee;
     font-family: Poppins;
     font-size: 12px;
@@ -237,6 +231,12 @@ nav a:hover{
     align-items: center;
 
 }
+.mosth1{
+    font-size:24px ;
+    align-items: center;
+    justify-content: center;
+    padding-left: 29.5rem;
+}
 
 .categories {
 padding-top: 3rem;
@@ -289,6 +289,7 @@ text-align: center;
 justify-content: center;
 padding-top: 1rem;
 font-size: 15px;
+padding-bottom: 1rem;
 }
 .showmore a{
  color: #007B6E;
@@ -458,6 +459,12 @@ h1 {
   #footer {
         font-size: 12px;
         padding: 1.5rem 1rem;
+    }
+    .mosth1{
+        font-size:24px ;
+        align-items: center;
+        justify-content: center;
+        padding-left: 8rem;
     }
 }
 /*mobile responsive*/

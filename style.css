@@ -62,7 +62,7 @@ nav a{
 
 }
 nav a:hover{
-  border-bottom: 1px solid var(--borders);
+  border-bottom: 1px solid #3c7573;
   text-shadow: 1px 1px 1px var(--tittle-shadow);
 
 
@@ -98,6 +98,7 @@ nav a:hover{
 }
 
 .cart-icon #cart-count {
+  margin-top: 10px;
   position: absolute;
   top: -10px;
   right: -10px;
@@ -119,7 +120,21 @@ nav a:hover{
   justify-content: center;
   gap: 20px;
 }
+.addtocart{
 
+background-color:#206a5d;
+border-radius: 10px;
+box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+font-size: 17px;
+display:run-in;
+transition: 0.6s;
+color: #fff;
+}
+.addtocart:hover{
+
+transform: scaleX(1.02);
+
+}
 .item-card {
   background-color: #fff;
   border: 1px solid #d4af91;
@@ -176,6 +191,25 @@ nav a:hover{
 }
 .checkout-container {
   display: flex;}
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .quantity-controls button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .quantity-controls button:hover {
+    background-color: #0056b3;
+  }
+  
 
 /*footer start*/
 footer{
