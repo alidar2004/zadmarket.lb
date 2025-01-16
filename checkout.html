@@ -37,7 +37,13 @@
   <main class="checkout-container">
     <section class="order-summary">
       <h2>Order Summary</h2>
-      <ul id="order-items"></ul>
+      <div class="delivery-option">
+        <label for="delivery">
+          <input type="checkbox" id="delivery">
+          Add delivery ($5)
+        </label>
+      </div>
+      
       <p>Total: $<span id="order-total">0.00</span></p>
     </section>
     
@@ -87,9 +93,7 @@
 <!-- Footer End -->
 
 
-
-
-  <script src="checkout.js"></script>
-  <script src="script.js"></script>
+<script src="script.js"></script>
+  <script src="appss.js"></script>
 </body>
 </html>

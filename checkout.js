@@ -1,3 +1,4 @@
+// Load order items from localStorage
 const orderItems = JSON.parse(localStorage.getItem("cart")) || [];
 const orderItemsContainer = document.getElementById("order-items");
 const orderTotal = document.getElementById("order-total");
@@ -5,6 +6,7 @@ const deliveryCheckbox = document.getElementById("delivery");
 
 let total = 0;
 let finalTotal = 0;
+const deliveryFee = 5; // Delivery fee value
 
 // Populate the order summary
 orderItems.forEach(item => {
@@ -21,9 +23,21 @@ orderItems.forEach(item => {
 });
 
 // Calculate and display the total
-finalTotal = total;
-orderTotal.textContent = finalTotal.toFixed(2);
+function updateTotal() {
+  finalTotal = total;
+  if (deliveryCheckbox && deliveryCheckbox.checked) {
+    finalTotal += deliveryFee;
+  }
+  orderTotal.textContent = finalTotal.toFixed(2);
+}
 
+// Attach event listener to the delivery checkbox
+if (deliveryCheckbox) {
+  deliveryCheckbox.addEventListener("change", updateTotal);
+}
+
+// Initial calculation
+updateTotal();
 
 // Handle form submission
 document.getElementById("checkout-form").addEventListener("submit", event => {
@@ -34,14 +48,22 @@ document.getElementById("checkout-form").addEventListener("submit", event => {
   const city = document.getElementById("city").value;
   const address = document.getElementById("address").value;
 
-  const orderDetails = `
-    Order Summary:
-    Name: ${name}
-    Phone: ${phone}
-    City: ${city}
-    Address: ${address}
-    Total: $${finalTotal.toFixed(2)}
-  `;
+  // Determine delivery status
+  const deliveryStatus = deliveryCheckbox && deliveryCheckbox.checked ? "Yes" : "No";
+
+  // Build the order summary
+  let orderDetails = `Order Summary:\n\nName: ${name}\nPhone: ${phone}\nCity: ${city}\nAddress: ${address}\n\nItems:\n`;
+
+  orderItems.forEach(item => {
+    orderDetails += `- ${item.name} x${item.quantity} ($${(item.price * item.quantity).toFixed(2)})\n`;
+  });
+
+  if (deliveryCheckbox && deliveryCheckbox.checked) {
+    orderDetails += `Delivery Fee: $${deliveryFee.toFixed(2)}\n`;
+  }
+
+  orderDetails += `\nTotal: $${finalTotal.toFixed(2)}\n`;
+  orderDetails += `Delivery Requested: ${deliveryStatus}`;
 
   // Send notification via WhatsApp
   const numbers = ["whatsapp:+96103603294", "whatsapp:+96170698120"];
@@ -55,43 +77,30 @@ document.getElementById("checkout-form").addEventListener("submit", event => {
   window.location.href = "index.html";
 });
 
-// Send WhatsApp Message with Order Summary
-function sendWhatsAppMessage() {
-  const phoneNumbers = ["1234567890", "0987654321"]; // Replace with actual numbers
-  const delivery = deliveryCheckbox && deliveryCheckbox.checked ? "Yes" : "No";
-  let total = parseFloat(cartTotal.textContent);
-  const deliveryFeeAmount = delivery === "Yes" ? deliveryFee : 0;
-  total += deliveryFeeAmount;
-
-  let message = `Order Summary:\n\n`;
-
-  cart.forEach(item => {
-    message += `- ${item.name} x${item.quantity} ($${(item.price * item.quantity).toFixed(2)})\n`;
-  });
-
-  if (delivery === "Yes") {
-    message += `- Delivery: $${deliveryFeeAmount.toFixed(2)}\n`;
-  }
-
-  message += `\nTotal: $${total.toFixed(2)}`;
-
-  phoneNumbers.forEach(phone => {
-    const whatsappURL = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappURL, "_blank");
-  });
-}
-
-// Attach sendWhatsAppMessage to the checkout button
+// Attach event listener to WhatsApp button if needed
 const placeOrderButton = document.getElementById("place-order-button");
 if (placeOrderButton) {
-  placeOrderButton.addEventListener("click", sendWhatsAppMessage);
-}
+  placeOrderButton.addEventListener("click", () => {
+    // Build WhatsApp message
+    const deliveryStatus = deliveryCheckbox && deliveryCheckbox.checked ? "Yes" : "No";
+    let message = `Order Summary:\n\n`;
 
+    orderItems.forEach(item => {
+      message += `- ${item.name} x${item.quantity} ($${(item.price * item.quantity).toFixed(2)})\n`;
+    });
 
-function showSidebar() {
-  document.querySelector('.sidebar').style.display = 'flex';
-}
+    if (deliveryCheckbox && deliveryCheckbox.checked) {
+      message += `Delivery Fee: $${deliveryFee.toFixed(2)}\n`;
+    }
 
-function hideSidebar() {
-  document.querySelector('.sidebar').style.display = 'none';
+    message += `\nTotal: $${finalTotal.toFixed(2)}\n`;
+    message += `Delivery Requested: ${deliveryStatus}`;
+
+    // Send message via WhatsApp
+    const numbers = ["+96103603294", "+96170698120"]; // Replace with real numbers
+    numbers.forEach(phone => {
+      const whatsappURL = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      window.open(whatsappURL, "_blank");
+    });
+  });
 }
