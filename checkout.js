@@ -55,6 +55,39 @@ document.getElementById("checkout-form").addEventListener("submit", event => {
   window.location.href = "index.html";
 });
 
+// Send WhatsApp Message with Order Summary
+function sendWhatsAppMessage() {
+  const phoneNumbers = ["1234567890", "0987654321"]; // Replace with actual numbers
+  const delivery = deliveryCheckbox && deliveryCheckbox.checked ? "Yes" : "No";
+  let total = parseFloat(cartTotal.textContent);
+  const deliveryFeeAmount = delivery === "Yes" ? deliveryFee : 0;
+  total += deliveryFeeAmount;
+
+  let message = `Order Summary:\n\n`;
+
+  cart.forEach(item => {
+    message += `- ${item.name} x${item.quantity} ($${(item.price * item.quantity).toFixed(2)})\n`;
+  });
+
+  if (delivery === "Yes") {
+    message += `- Delivery: $${deliveryFeeAmount.toFixed(2)}\n`;
+  }
+
+  message += `\nTotal: $${total.toFixed(2)}`;
+
+  phoneNumbers.forEach(phone => {
+    const whatsappURL = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappURL, "_blank");
+  });
+}
+
+// Attach sendWhatsAppMessage to the checkout button
+const placeOrderButton = document.getElementById("place-order-button");
+if (placeOrderButton) {
+  placeOrderButton.addEventListener("click", sendWhatsAppMessage);
+}
+
+
 function showSidebar() {
   document.querySelector('.sidebar').style.display = 'flex';
 }
