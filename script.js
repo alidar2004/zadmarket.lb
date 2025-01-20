@@ -94,7 +94,7 @@ if (deliveryCheckbox) {
 
 // Example Items
 const items = [
-  { id: 1, name: "Prayer Mat", price: 20, image: "../img/most1.jpg" },
+  { id: 1, name: "Prayer Mat", price: 20, image: "https://via.placeholder.com/100" },
   { id: 2, name: "Tasbeeh", price: 10, image: "https://via.placeholder.com/100" },
   { id: 3, name: "Quran", price: 25, image: "https://via.placeholder.com/100" },
 ];
@@ -163,7 +163,9 @@ if (document.getElementById("checkout-cart-items")) {
 
 // Send WhatsApp Message with Order Summary
 function sendWhatsAppMessage() {
-  const phoneNumbers = ["1234567890", "0987654321"]; // Replace with actual numbers
+  const phoneNumbers = deliveryCheckbox && deliveryCheckbox.checked 
+    ? ["+96103603294"]
+    : ["+96170698120"];
   const delivery = deliveryCheckbox && deliveryCheckbox.checked ? "Yes" : "No";
   let total = parseFloat(cartTotal.textContent);
   const deliveryFeeAmount = delivery === "Yes" ? deliveryFee : 0;
